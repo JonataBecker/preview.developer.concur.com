@@ -17,6 +17,7 @@ concur -> supply++: Cancel booking (notification- includes cancellation no.)\n<b
 supply -> supply: Update booking status
 supply --> concur--: Cancel booking update response
 concur --> user: Cancel confirmation with cancellation no.
+concur--
 break
 
 == Cancel direct-connect sourced booking ==
@@ -29,6 +30,17 @@ gds --> supply--: Ack
 supply -> concur--: Cancel response with cancellation no.
 concur -> concur: Update storage
 concur --> user--: Cancel confirmation with cancellation no.
+break
+
+== Cancel GDS sourced bookings recovery scenarios ==
+user -> concur++: Book hotel
+concur -> concur: Fails booking process with ongoing GDS sourced booking
+concur -> supply++: Cancel booking (request)\n<b>/hotels/reservation/cancel</b>
+supply -> gds++: Cancel booking/trip
+gds --> supply: Cancel response
+supply -> supply: Update booking status
+supply --> concur--: Cancel booking update response
+concur --> user: Error response.
 
 @enduml
 
